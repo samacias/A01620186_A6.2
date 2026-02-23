@@ -67,3 +67,10 @@ class TestReservationSystem(unittest.TestCase):
         self.system.create_hotel(Hotel("H1", "Hotel Uno", 5, "CDMX"))
         with self.assertRaises(ValueError):
             self.system.create_reservation(Reservation("R1", "H1", "C999", 1))
+
+    def test_cancel_reservation(self) -> None:
+        reservation = Reservation("r1", "h1", "c1", 1)
+        self.system.create_reservation(reservation)
+        self.system.cancel_reservation("r1")
+        with self.assertRaises(ValueError):
+            self.system.cancel_reservation("r1")
