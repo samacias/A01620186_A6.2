@@ -1,3 +1,4 @@
+"""Command-line interface for the Reservation System."""
 from __future__ import annotations
 
 from reservation_system.models import Customer, Hotel, Reservation
@@ -16,6 +17,7 @@ def _menu() -> None:
 
 
 def main() -> None:
+    """Run the interactive command-line reservation system."""
     system = ReservationSystem("data")
 
     while True:
