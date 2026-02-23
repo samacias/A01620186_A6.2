@@ -1,3 +1,4 @@
+"""Business logic for managing hotels, customers, and reservations."""
 from __future__ import annotations
 
 from pathlib import Path
@@ -8,7 +9,8 @@ from reservation_system.storage import load_list, save_list
 
 
 class ReservationSystem:
-    """Business logic for hotels, customers, and reservations with JSON persistence."""
+    """Business logic for hotels, customers,
+    and reservations with JSON persistence."""
 
     def __init__(self, data_dir: str = "data") -> None:
         self.data_dir = Path(data_dir)
@@ -30,7 +32,9 @@ class ReservationSystem:
         save_list(self.customers_path, [c.to_dict() for c in customers])
 
     def _load_reservations(self) -> list[Reservation]:
-        return [Reservation.from_dict(x) for x in load_list(self.reservations_path)]
+        return [
+            Reservation.from_dict(x) for x in load_list(
+                self.reservations_path)]
 
     def _save_reservations(self, reservations: list[Reservation]) -> None:
         save_list(self.reservations_path, [r.to_dict() for r in reservations])
@@ -109,9 +113,11 @@ class ReservationSystem:
             if name is not None:
                 data["name"] = self._require_non_empty(name, "name")
             if rooms is not None:
-                data["rooms"] = self._require_positive_int(rooms, "rooms")
+                data["rooms"] = self._require_positive_int(
+                    rooms, "rooms")
             if location is not None:
-                data["location"] = self._require_non_empty(location, "location")
+                data["location"] = self._require_non_empty(
+                    location, "location")
 
             hotels[i] = Hotel.from_dict(data)
             self._save_hotels(hotels)
@@ -143,7 +149,8 @@ class ReservationSystem:
             raise ValueError("Customer not found.")
 
         reservations = self._load_reservations()
-        reservations = [r for r in reservations if r.customer_id != customer_id]
+        reservations = [
+            r for r in reservations if r.customer_id != customer_id]
 
         self._save_customers(new_customers)
         self._save_reservations(reservations)
@@ -194,21 +201,27 @@ class ReservationSystem:
         customers = self._load_customers()
         reservations = self._load_reservations()
 
-        hotel = next((h for h in hotels if h.hotel_id == reservation.hotel_id), None)
+        hotel = next((
+            h for h in hotels if h.hotel_id == reservation.hotel_id), None)
         if hotel is None:
             raise ValueError("Hotel not found.")
 
-        customer_exists = any(c.customer_id == reservation.customer_id for c in customers)
+        customer_exists = any(
+            c.customer_id == reservation.customer_id for c in customers)
         if not customer_exists:
             raise ValueError("Customer not found.")
 
         if room > hotel.rooms:
             raise ValueError("Room exceeds hotel's room capacity.")
 
-        if any(r.reservation_id == reservation.reservation_id for r in reservations):
+        if any(
+                r.reservation_id == reservation.reservation_id
+                for r in reservations):
             raise ValueError("Reservation ID already exists.")
 
-        if any(r.hotel_id == reservation.hotel_id and r.room == room for r in reservations):
+        if any(
+                r.hotel_id == reservation.hotel_id
+                and r.room == room for r in reservations):
             raise ValueError("Room already reserved.")
 
         reservations.append(reservation)
@@ -216,10 +229,12 @@ class ReservationSystem:
 
     def cancel_reservation(self, reservation_id: str) -> None:
         """Cancel reservation by ID."""
-        reservation_id = self._require_non_empty(reservation_id, "reservation_id")
+        reservation_id = self._require_non_empty(
+            reservation_id, "reservation_id")
 
         reservations = self._load_reservations()
-        new_reservations = [r for r in reservations if r.reservation_id != reservation_id]
+        new_reservations = [
+            r for r in reservations if r.reservation_id != reservation_id]
         if len(new_reservations) == len(reservations):
             raise ValueError("Reservation not found.")
 

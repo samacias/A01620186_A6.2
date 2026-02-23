@@ -45,7 +45,8 @@ def main() -> None:
                 hotel_id = input("Hotel ID: ").strip()
                 customer_id = input("Customer ID: ").strip()
                 room = int(input("Room (int): ").strip())
-                system.create_reservation(Reservation(reservation_id, hotel_id, customer_id, room))
+                system.create_reservation(Reservation(
+                    reservation_id, hotel_id, customer_id, room))
                 print("Reservation created.")
 
             elif choice == "4":

@@ -1,3 +1,4 @@
+"""JSON storage helpers for loading and saving lists of dictionaries."""
 import json
 from pathlib import Path
 from typing import Any

@@ -1,3 +1,4 @@
+"""Data models for hotels, customers, and reservations."""
 from __future__ import annotations
 
 from dataclasses import dataclass
