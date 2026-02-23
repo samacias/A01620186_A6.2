@@ -4,5 +4,11 @@
     "name": "Hotel Uno",
     "rooms": 5,
     "location": "CDMX"
+  },
+  {
+    "hotel_id": "H2",
+    "name": "Dos",
+    "rooms": 10,
+    "location": "Monterrey"
   }
 ]
